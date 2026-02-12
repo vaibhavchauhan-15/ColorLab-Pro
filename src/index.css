@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 20% 98%;
+    /* Light gray/white */
+    --card: 0 0% 100%;
+    /* White */
+    --text: 222 47% 11%;
+    /* Dark slate */
+    --accent: 239 84% 67%;
+    /* Indigo */
+  }
+
+  .dark {
+    --background: 222 47% 11%;
+    /* #0f172a */
+    --card: 217 33% 17%;
+    /* #1e293b */
+    --text: 214 32% 91%;
+    /* #e2e8f0 */
+    --accent: 239 84% 67%;
+    /* #6366f1 */
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-background text-text font-sans antialiased transition-colors duration-300;
+  }
+}
