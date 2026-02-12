@@ -43,14 +43,14 @@ const ColorCard = ({ color, index, onChange, onRemove, canRemove }) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.3 }}
-            className="bg-white dark:bg-card p-4 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700/50 flex flex-col gap-4 relative group"
+            className="glass-panel p-4 rounded-xl shadow-premium border border-border flex flex-col gap-4 relative group"
         >
             <div className="flex items-center justify-between mb-2">
-                <span className="text-gray-500 dark:text-gray-400 text-sm font-medium">Color {index + 1}</span>
+                <span className="text-text-secondary text-sm font-medium">Color {index + 1}</span>
                 {canRemove && (
                     <button
                         onClick={() => onRemove(index)}
-                        className="text-gray-400 hover:text-red-500 transition-colors p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+                        className="text-text-secondary hover:text-red-500 transition-colors p-1 rounded-md hover:bg-secondary"
                         aria-label="Remove color"
                     >
                         <Trash2 size={18} />
@@ -59,7 +59,7 @@ const ColorCard = ({ color, index, onChange, onRemove, canRemove }) => {
             </div>
 
             <div className="flex gap-4 items-center">
-                <div className="w-16 h-16 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600 shrink-0 relative shadow-sm">
+                <div className="w-16 h-16 rounded-lg overflow-hidden border border-border shrink-0 relative shadow-sm">
                     <input
                         type="color"
                         value={localHex.length === 7 ? localHex : "#000000"}
@@ -72,7 +72,7 @@ const ColorCard = ({ color, index, onChange, onRemove, canRemove }) => {
                         type="text"
                         value={localHex}
                         onChange={handleHexChange}
-                        className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-md px-3 py-2 text-gray-900 dark:text-white font-mono text-sm focus:ring-2 focus:ring-accent focus:border-transparent outline-none uppercase transition-colors"
+                        className="w-full bg-secondary border border-border rounded-md px-3 py-2 text-text font-mono text-sm focus:ring-2 focus:ring-accent focus:border-transparent outline-none uppercase transition-colors"
                         maxLength={7}
                     />
                 </div>
@@ -81,16 +81,16 @@ const ColorCard = ({ color, index, onChange, onRemove, canRemove }) => {
             <div className="space-y-3">
                 {['r', 'g', 'b'].map((channel) => (
                     <div key={channel} className="flex items-center gap-3">
-                        <span className="text-gray-400 dark:text-gray-500 w-4 uppercase text-xs font-bold">{channel}</span>
+                        <span className="text-text-secondary w-4 uppercase text-xs font-bold">{channel}</span>
                         <input
                             type="range"
                             min="0"
                             max="255"
                             value={rgb[channel]}
                             onChange={(e) => handleRgbChange(channel, e.target.value)}
-                            className="flex-1 h-1 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-accent"
+                            className="flex-1 h-1 bg-secondary rounded-lg appearance-none cursor-pointer accent-accent"
                         />
-                        <span className="text-gray-500 dark:text-gray-400 w-8 text-right text-xs font-mono">{rgb[channel]}</span>
+                        <span className="text-text-secondary w-8 text-right text-xs font-mono">{rgb[channel]}</span>
                     </div>
                 ))}
             </div>

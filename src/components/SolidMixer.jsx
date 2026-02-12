@@ -10,8 +10,7 @@ const SolidMixer = () => {
     const generateId = () => Math.random().toString(36).substr(2, 9);
 
     const [colors, setColors] = useState([
-        { id: '1', value: '#EF4444' },
-        { id: '2', value: '#3B82F6' }
+        { id: '1', value: '#EF4444' }
     ]);
 
     const handleColorChange = (index, newValue) => {
@@ -27,7 +26,7 @@ const SolidMixer = () => {
     };
 
     const removeColor = (index) => {
-        if (colors.length > 2) {
+        if (colors.length > 1) {
             const newColors = colors.filter((_, i) => i !== index);
             setColors(newColors);
         }
@@ -49,8 +48,8 @@ const SolidMixer = () => {
         <div className="grid lg:grid-cols-12 gap-8 h-full">
             <div className="lg:col-span-5 space-y-6 overflow-y-auto pr-2 custom-scrollbar max-h-[calc(100vh-200px)]">
                 <div className="flex items-center justify-between">
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Mix Colors</h2>
-                    <span className="text-gray-500 dark:text-gray-400 text-sm">{colors.length} / 7</span>
+                    <h2 className="text-2xl font-bold text-text">Mix Colors</h2>
+                    <span className="text-text-secondary text-sm">{colors.length} / 7</span>
                 </div>
 
                 <div className="space-y-4">
@@ -62,12 +61,7 @@ const SolidMixer = () => {
                                 color={colorObj.value}
                                 onChange={handleColorChange}
                                 onRemove={removeColor}
-                                canRemove={colors.length > 1} // PRD says 1 color -> RGB blend. So min 1?
-                            // PRD: "Remove button (except required minimum)"
-                            // And "1 color -> RGB output". So min 1 is allowed.
-                            // Actually "2 colors -> blended". "1 color -> RGB blend -> final".
-                            // So 1 color is just a color converter/picker.
-                            // I'll allow removing down to 1.
+                                canRemove={colors.length > 1}
                             />
                         ))}
                     </AnimatePresence>
@@ -78,7 +72,7 @@ const SolidMixer = () => {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={addColor}
-                        className="w-full py-4 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-700 text-gray-400 hover:border-accent hover:text-accent transition-colors flex items-center justify-center gap-2 font-medium bg-transparent"
+                        className="w-full py-4 rounded-xl border-2 border-dashed border-border text-text-secondary hover:border-accent hover:text-accent transition-colors flex items-center justify-center gap-2 font-medium bg-transparent"
                     >
                         <Plus size={20} />
                         Add Color

@@ -4,30 +4,100 @@
 
 @layer base {
   :root {
-    --background: 240 20% 98%;
-    /* Light gray/white */
+    /* Light Mode - Soft Frost */
+    --background: 210 40% 98%;
+    /* #F8FAFC */
+    --secondary: 210 40% 96%;
+    /* #F1F5F9 */
     --card: 0 0% 100%;
-    /* White */
+    /* #FFFFFF */
+    --border: 210 40% 96%;
+    /* #E2E8F0 */
+    --accent: 243 75% 59%;
+    /* #4F46E5 */
+    --accent-hover: 239 84% 67%;
+    /* #6366f1 */
     --text: 222 47% 11%;
-    /* Dark slate */
-    --accent: 239 84% 67%;
-    /* Indigo */
+    /* #0F172A */
+    --text-secondary: 215 16% 47%;
+    /* #475569 */
+
+    --success: 142 76% 36%;
+    /* #16A34A */
+    --danger: 354 70% 50%;
+    /* #DC2626 */
+
+    --shadow-premium: 0 8px 20px rgba(0, 0, 0, 0.06);
   }
 
   .dark {
-    --background: 222 47% 11%;
-    /* #0f172a */
-    --card: 217 33% 17%;
-    /* #1e293b */
-    --text: 214 32% 91%;
-    /* #e2e8f0 */
+    /* Dark Mode - Midnight Studio */
+    --background: 224 48% 8%;
+    /* #0B1120 */
+    --secondary: 217 33% 17%;
+    /* Lighter than background for inputs */
+    /* #1E293B */
+    --card: 222 47% 11%;
+    /* #0F172A */
+    --border: 217 19% 27%;
+    /* Increased lightness for visibility */
+    /* #334155 */
     --accent: 239 84% 67%;
-    /* #6366f1 */
+    /* #6366F1 */
+    --accent-hover: 236 72% 70%;
+    /* #818CF8 */
+    --text: 210 40% 98%;
+    /* #F8FAFC */
+    --text-secondary: 215 20% 65%;
+    /* #94A3B8 */
+
+    --success: 142 70% 45%;
+    /* #22C55E */
+    --danger: 0 84% 60%;
+    /* #EF4444 */
+
+    --shadow-premium: 0 8px 30px rgba(0, 0, 0, 0.4);
   }
 }
 
 @layer base {
   body {
-    @apply bg-background text-text font-sans antialiased transition-colors duration-300;
+    @apply bg-background text-text font-sans antialiased;
+    transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 dark:bg-gray-700 rounded-full hover:bg-gray-400 dark:hover:bg-gray-600 transition-colors;
+  }
+
+  /* Selection Style */
+  ::selection {
+    @apply bg-accent/30 text-accent;
+  }
+}
+
+
+@layer utilities {
+  .glass-panel {
+    @apply backdrop-blur-md;
+    background: rgba(255, 255, 255, 0.7);
+  }
+
+  .dark .glass-panel {
+    background: rgba(17, 24, 39, 0.7);
+  }
+
+  .shadow-premium {
+    box-shadow: var(--shadow-premium);
   }
 }

@@ -42,17 +42,17 @@ const GradientGenerator = () => {
         <div className="grid lg:grid-cols-12 gap-8 h-full">
             <div className="lg:col-span-5 space-y-6 overflow-y-auto pr-2 custom-scrollbar max-h-[calc(100vh-200px)]">
                 <div className="flex items-center justify-between">
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Design Gradient</h2>
+                    <h2 className="text-2xl font-bold text-text">Design Gradient</h2>
                     <div className="flex gap-2">
                         <button
                             onClick={() => setType('linear')}
-                            className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${type === 'linear' ? 'bg-accent text-white' : 'bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700'}`}
+                            className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${type === 'linear' ? 'bg-accent text-white' : 'bg-secondary text-text-secondary hover:text-text hover:bg-border'}`}
                         >
                             Linear
                         </button>
                         <button
                             onClick={() => setType('radial')}
-                            className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${type === 'radial' ? 'bg-accent text-white' : 'bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700'}`}
+                            className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${type === 'radial' ? 'bg-accent text-white' : 'bg-secondary text-text-secondary hover:text-text hover:bg-border'}`}
                         >
                             Radial
                         </button>
@@ -60,8 +60,8 @@ const GradientGenerator = () => {
                 </div>
 
                 {type === 'linear' && (
-                    <div className="bg-white dark:bg-card p-4 rounded-xl border border-gray-200 dark:border-gray-700 space-y-2 shadow-sm">
-                        <div className="flex justify-between text-sm text-gray-500 dark:text-gray-400">
+                    <div className="bg-card p-4 rounded-xl border border-border space-y-2 shadow-sm">
+                        <div className="flex justify-between text-sm text-text-secondary">
                             <span>Angle</span>
                             <span>{angle}°</span>
                         </div>
@@ -71,7 +71,7 @@ const GradientGenerator = () => {
                             max="360"
                             value={angle}
                             onChange={(e) => setAngle(Number(e.target.value))}
-                            className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-accent"
+                            className="w-full h-2 bg-secondary rounded-lg appearance-none cursor-pointer accent-accent"
                         />
                     </div>
                 )}
@@ -96,7 +96,7 @@ const GradientGenerator = () => {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={addColor}
-                        className="w-full py-4 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-700 text-gray-400 hover:border-accent hover:text-accent transition-colors flex items-center justify-center gap-2 font-medium bg-transparent"
+                        className="w-full py-4 rounded-xl border-2 border-dashed border-border text-text-secondary hover:border-accent hover:text-accent transition-colors flex items-center justify-center gap-2 font-medium bg-transparent"
                     >
                         <Plus size={20} />
                         Add Stop

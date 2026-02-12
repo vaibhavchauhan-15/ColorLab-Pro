@@ -15,12 +15,12 @@ function App() {
 
           {/* Tabs Navigation */}
           <div className="flex justify-center mb-8">
-            <div className="bg-white/50 dark:bg-card/50 backdrop-blur-sm p-1 rounded-xl border border-gray-200 dark:border-gray-700/50 inline-flex relative shadow-sm">
+            <div className="bg-card/50 backdrop-blur-sm p-1 rounded-xl border border-gray-700/50 inline-flex relative">
               {['solid', 'gradient'].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`relative px-6 py-2 rounded-lg text-sm font-medium transition-colors z-10 ${activeTab === tab ? 'text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+                  className={`relative px-6 py-2 rounded-lg text-sm font-medium transition-colors z-10 ${activeTab === tab ? 'text-white' : 'text-gray-400 hover:text-gray-200'
                     }`}
                 >
                   {activeTab === tab && (
