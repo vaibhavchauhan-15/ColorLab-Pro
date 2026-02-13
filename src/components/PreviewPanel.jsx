@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Copy, Check, Code } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -48,25 +48,69 @@ const CopyButton = ({ text, label }) => {
     );
 };
 
-const PreviewPanel = ({ color, type = 'solid', details = {}, animated = false, animationKeyframes = '' }) => {
+const PreviewPanel = ({ color, type = 'solid', details = {}, animated = false, animationKeyframes = '', animationSpeed = 3 }) => {
+    const styleRef = useRef(null);
+    const animationId = useRef(`gradientAnim_${Math.random().toString(36).substr(2, 9)}`).current;
+
+    // Inject keyframes into document
+    useEffect(() => {
+        if (animated && animationKeyframes) {
+            // Remove existing style if present
+            if (styleRef.current) {
+                styleRef.current.remove();
+            }
+
+            // Create and inject new style element
+            const styleElement = document.createElement('style');
+            const keyframesWithId = animationKeyframes.replace('gradientAnimation', animationId);
+            styleElement.textContent = keyframesWithId;
+            document.head.appendChild(styleElement);
+            styleRef.current = styleElement;
+
+            return () => {
+                if (styleRef.current) {
+                    styleRef.current.remove();
+                    styleRef.current = null;
+                }
+            };
+        }
+    }, [animated, animationKeyframes, animationId]);
+
     // Create a style object for animated gradients
-    const previewStyle = animated ? {
-        background: color.split('\n').find(line => line.includes('background:'))?.split('background:')[1]?.trim().replace(';', '') || color,
-        backgroundSize: '200% 200%',
-        animation: 'gradientAnimation 3s ease infinite'
-    } : {
+    const previewStyle = animated ? (() => {
+        // Parse the CSS string to extract the background value
+        let backgroundValue = color;
+        const bgMatch = color.match(/background:\s*([^;]+);/);
+        if (bgMatch) {
+            backgroundValue = bgMatch[1].trim();
+        }
+        
+        return {
+            background: backgroundValue,
+            backgroundSize: '200% 200%',
+            animation: `${animationId} ${animationSpeed}s ease infinite`,
+            willChange: 'background-position',
+            transform: 'translateZ(0)', // Force hardware acceleration
+            backfaceVisibility: 'hidden'
+        };
+    })() : {
         background: color
     };
 
+    // Format CSS for export
+    const exportCSS = animated ? (() => {
+        // Extract just the background line for the export button display
+        const bgMatch = color.match(/background:\s*([^;]+);/);
+        if (bgMatch) {
+            return `background: ${bgMatch[1].trim()};`;
+        }
+        return color;
+    })() : `background: ${color};`;
+
     return (
         <div className="h-full flex flex-col gap-6">
-            {/* Add keyframes style if animated */}
-            {animated && animationKeyframes && (
-                <style>{animationKeyframes}</style>
-            )}
-            
             <motion.div
-                className="flex-1 min-h-[300px] rounded-2xl shadow-2xl relative overflow-hidden border border-border"
+                className={`flex-1 min-h-[300px] rounded-2xl shadow-2xl relative overflow-hidden border border-border ${animated ? 'gradient-animated' : ''}`}
                 style={previewStyle}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -94,7 +138,7 @@ const PreviewPanel = ({ color, type = 'solid', details = {}, animated = false, a
                             <CopyButton label="HSL" text={details.hsl} />
                         </>
                     ) : (
-                        <CopyButton label="CSS" text={`background: ${color};`} />
+                        <CopyButton label="CSS" text={exportCSS} />
                     )}
                 </div>
             </div>

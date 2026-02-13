@@ -261,8 +261,34 @@ export const generateAllHarmonies = (baseHex) => {
 };
 
 // Generate animated gradient CSS with keyframes
-export const generateAnimatedGradientCSS = (colors, angle = 45, duration = 3) => {
-    const keyframes = `
+export const generateAnimatedGradientCSS = (colors, type = 'linear', angle = 45, duration = 3) => {
+    const colorString = colors.join(', ');
+    let backgroundValue, keyframes, css;
+    
+    if (type === 'radial') {
+        // For radial gradients, animate the circle position
+        keyframes = `
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    25% {
+        background-position: 100% 0%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    75% {
+        background-position: 0% 100%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}`;
+        backgroundValue = `radial-gradient(circle at center, ${colorString})`;
+    } else {
+        // For linear gradients, animate along the gradient direction
+        keyframes = `
 @keyframes gradientAnimation {
     0% {
         background-position: 0% 50%;
@@ -274,13 +300,12 @@ export const generateAnimatedGradientCSS = (colors, angle = 45, duration = 3) =>
         background-position: 0% 50%;
     }
 }`;
-
-    const colorString = colors.join(', ');
-    const css = `
-background: linear-gradient(${angle}deg, ${colorString});
+        backgroundValue = `linear-gradient(${angle}deg, ${colorString})`;
+    }
+    
+    css = `background: ${backgroundValue};
 background-size: 200% 200%;
-animation: gradientAnimation ${duration}s ease infinite;
-`;
+animation: gradientAnimation ${duration}s ease infinite;`;
 
     return { css, keyframes };
 };

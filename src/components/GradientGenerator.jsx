@@ -44,18 +44,21 @@ const GradientGenerator = ({ colors: propsColors, setColors: propsSetColors }) =
     const gradientCSS = useMemo(() => {
         if (animated) {
             const { css, keyframes } = generateAnimatedGradientCSS(
-                colors.map(c => c.value), 
+                colors.map(c => c.value),
+                type,
                 angle, 
                 animationSpeed
             );
-            return { css, keyframes, animated: true };
+            return { css, keyframes, animated: true, animationSpeed };
         }
         return { css: generateGradientCSS(type, angle, colors.map(c => c.value)), animated: false };
     }, [colors, type, angle, animated, animationSpeed]);
 
     const copyAnimatedCode = () => {
         if (animated && gradientCSS.keyframes) {
-            const fullCode = `${gradientCSS.keyframes}\n\n.animated-gradient {\n${gradientCSS.css}\n}`;
+            const cssLines = gradientCSS.css.split('\n').filter(line => line.trim());
+            const formattedCSS = cssLines.map(line => `  ${line}`).join('\n');
+            const fullCode = `${gradientCSS.keyframes}\n\n.animated-gradient {\n${formattedCSS}\n}`;
             navigator.clipboard.writeText(fullCode);
         } else {
             navigator.clipboard.writeText(`.gradient {\n  background: ${gradientCSS.css};\n}`);
@@ -136,10 +139,15 @@ const GradientGenerator = ({ colors: propsColors, setColors: propsSetColors }) =
                 </motion.div>
 
                 {type === 'linear' && (
-                    <div className="bg-card p-4 rounded-xl border border-border space-y-2 shadow-sm">
-                        <div className="flex justify-between text-sm text-text-secondary">
-                            <span>Angle</span>
-                            <span>{angle}°</span>
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        className="bg-card p-4 rounded-xl border border-border space-y-2 shadow-sm"
+                    >
+                        <div className="flex justify-between text-sm">
+                            <span className="text-text-secondary">Angle</span>
+                            <span className="text-text font-semibold">{angle}°</span>
                         </div>
                         <input
                             type="range"
@@ -149,7 +157,14 @@ const GradientGenerator = ({ colors: propsColors, setColors: propsSetColors }) =
                             onChange={(e) => setAngle(Number(e.target.value))}
                             className="w-full h-2 bg-secondary rounded-lg appearance-none cursor-pointer accent-accent"
                         />
-                    </div>
+                        <div className="flex justify-between text-xs text-text-secondary pt-1">
+                            <span>0°</span>
+                            <span>90°</span>
+                            <span>180°</span>
+                            <span>270°</span>
+                            <span>360°</span>
+                        </div>
+                    </motion.div>
                 )}
 
                 {/* Copy Code Button */}
@@ -206,10 +221,11 @@ const GradientGenerator = ({ colors: propsColors, setColors: propsSetColors }) =
 
             <div className="lg:col-span-7 sticky top-8">
                 <PreviewPanel
-                    color={gradientCSS.animated ? gradientCSS.css : gradientCSS}
+                    color={gradientCSS.animated ? gradientCSS.css : gradientCSS.css || gradientCSS}
                     type="gradient"
                     animated={gradientCSS.animated}
                     animationKeyframes={gradientCSS.keyframes}
+                    animationSpeed={gradientCSS.animationSpeed}
                 />
             </div>
         </div>

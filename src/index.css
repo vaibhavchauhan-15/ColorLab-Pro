@@ -337,6 +337,17 @@
     }
   }
 
+  /* Gradient Animation Optimizations */
+  .gradient-animated {
+    will-change: background-position;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    perspective: 1000px;
+    -webkit-perspective: 1000px;
+  }
+
   /* Pulse Animation */
   .pulse-slow {
     animation: pulseSlow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
