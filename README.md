@@ -95,7 +95,33 @@ A professional-grade color design tool built with React that helps designers and
 - **Smooth Animations** - Powered by Framer Motion
 - **Accessible UI** - Keyboard navigation and ARIA labels
 
-## 🛠️ Technology Stack
+## � Screenshots
+
+### Solid Color Mixer
+![Solid Mix](public/screenshot/solid%20mix.png)
+
+### Gradient Generator
+![Gradient Generator](public/screenshot/gradient.png)
+
+### Color Harmony Generator
+![Color Harmony](public/screenshot/harmony.png)
+
+### Color Scale Generator
+![Color Scale](public/screenshot/scale%20gen.png)
+
+### Image Color Extractor
+![Image Extract](public/screenshot/image%20extract.png)
+
+### Contrast Checker
+![Contrast Checker](public/screenshot/contrast%20checker.png)
+
+### UI Preview Mode
+![UI Preview](public/screenshot/ui%20preview.png)
+
+### Export Panel
+![Export Panel](public/screenshot/export.png)
+
+## �🛠️ Technology Stack
 
 ### Frontend Framework
 - **React 19.2.0** - Modern React with latest features
