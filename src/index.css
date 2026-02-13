@@ -61,12 +61,19 @@
 }
 
 @layer base {
+  * {
+    /* Smooth transitions for all elements */
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
+  }
+
   body {
     @apply bg-background text-text font-sans antialiased;
     transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
   }
 
-  /* Custom Scrollbar */
+  /* Custom Scrollbar - 8px width following grid system */
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -77,27 +84,255 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-gray-300 dark:bg-gray-700 rounded-full hover:bg-gray-400 dark:hover:bg-gray-600 transition-colors;
+    @apply bg-gray-300 dark:bg-gray-700 rounded-full;
+    transition: background-color 300ms ease-in-out;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-accent/50 dark:bg-accent/50;
   }
 
   /* Selection Style */
   ::selection {
     @apply bg-accent/30 text-accent;
   }
+
+  /* Focus visible improvements for accessibility */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-background;
+    transition: box-shadow 200ms ease-out;
+  }
+}
+
+
+@layer components {
+
+  /* Card Component with Smooth Transitions */
+  .card {
+    @apply bg-card rounded-2xl border border-border shadow-sm;
+    transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card:hover {
+    @apply shadow-lg border-accent/20;
+    transform: translateY(-4px);
+  }
+
+  /* Button Base Styles */
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium;
+    @apply transition-all duration-300 ease-out;
+    @apply focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background;
+  }
+
+  .btn:active {
+    transform: scale(0.97);
+  }
+
+  .btn-primary {
+    @apply bg-accent text-white shadow-lg shadow-accent/20;
+    @apply hover:bg-accent-hover hover:shadow-accent/40;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-text border border-border;
+    @apply hover:bg-background hover:border-accent/40;
+  }
+
+  /* Input Base Styles */
+  .input {
+    @apply w-full px-4 py-3 rounded-xl bg-secondary border border-border;
+    @apply text-text placeholder:text-text-secondary;
+    @apply transition-all duration-300 ease-out;
+    @apply focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent;
+    @apply hover:border-accent/40;
+  }
+
+  .input:focus {
+    @apply bg-card shadow-lg;
+  }
 }
 
 
 @layer utilities {
+
+  /* Glassmorphism Panel */
   .glass-panel {
     @apply backdrop-blur-md;
     background: rgba(255, 255, 255, 0.7);
+    transition: all 300ms ease-out;
   }
 
   .dark .glass-panel {
     background: rgba(17, 24, 39, 0.7);
   }
 
+  .glass-panel:hover {
+    background: rgba(255, 255, 255, 0.85);
+  }
+
+  .dark .glass-panel:hover {
+    background: rgba(17, 24, 39, 0.85);
+  }
+
+  /* Premium Shadow */
   .shadow-premium {
     box-shadow: var(--shadow-premium);
+    transition: box-shadow 300ms ease-out;
+  }
+
+  /* Smooth Scale Animation */
+  .scale-on-hover {
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .scale-on-hover:hover {
+    transform: scale(1.05);
+  }
+
+  .scale-on-hover:active {
+    transform: scale(0.98);
+  }
+
+  /* Fade In Animation */
+  .fade-in {
+    animation: fadeIn 600ms ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Slide In From Left */
+  .slide-in-left {
+    animation: slideInLeft 500ms ease-out;
+  }
+
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-32px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* Slide In From Right */
+  .slide-in-right {
+    animation: slideInRight 500ms ease-out;
+  }
+
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(32px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* Bounce Animation for Buttons */
+  .bounce-on-click:active {
+    animation: bounceClick 300ms ease-out;
+  }
+
+  @keyframes bounceClick {
+
+    0%,
+    100% {
+      transform: scale(1);
+    }
+
+    50% {
+      transform: scale(0.95);
+    }
+  }
+
+  /* Shimmer Effect */
+  .shimmer {
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  .dark .shimmer {
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(255, 255, 255, 0.05),
+        transparent);
+    background-size: 200% 100%;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  /* Pulse Animation */
+  .pulse-slow {
+    animation: pulseSlow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes pulseSlow {
+
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.7;
+    }
+  }
+
+  /* Grid Background Pattern */
+  .grid-pattern {
+    background-image:
+      linear-gradient(hsl(var(--border)) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--border)) 1px, transparent 1px);
+    background-size: 8px 8px;
+    /* Following 8px grid system */
+  }
+}
+
+/* Accessibility: Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Smooth scroll for non-reduced motion */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
   }
 }
