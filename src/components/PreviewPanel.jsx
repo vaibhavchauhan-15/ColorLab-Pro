@@ -48,18 +48,36 @@ const CopyButton = ({ text, label }) => {
     );
 };
 
-const PreviewPanel = ({ color, type = 'solid', details = {} }) => {
+const PreviewPanel = ({ color, type = 'solid', details = {}, animated = false, animationKeyframes = '' }) => {
+    // Create a style object for animated gradients
+    const previewStyle = animated ? {
+        background: color.split('\n').find(line => line.includes('background:'))?.split('background:')[1]?.trim().replace(';', '') || color,
+        backgroundSize: '200% 200%',
+        animation: 'gradientAnimation 3s ease infinite'
+    } : {
+        background: color
+    };
+
     return (
         <div className="h-full flex flex-col gap-6">
+            {/* Add keyframes style if animated */}
+            {animated && animationKeyframes && (
+                <style>{animationKeyframes}</style>
+            )}
+            
             <motion.div
                 className="flex-1 min-h-[300px] rounded-2xl shadow-2xl relative overflow-hidden border border-border"
-                style={{ background: color }}
+                style={previewStyle}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
             >
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/checkerboard.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
-                {/* Optional: Add noise or texture overlay for premium feel */}
+                {animated && (
+                    <div className="absolute top-4 right-4 bg-accent/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                        <span className="animate-pulse">●</span> Animated
+                    </div>
+                )}
             </motion.div>
 
             <div className="glass-panel p-6 rounded-2xl shadow-xl border border-border space-y-4">

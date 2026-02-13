@@ -10,7 +10,7 @@ import { Trash2, GripVertical } from 'lucide-react';
 import { hexToRgb, rgbToHex } from '../utils/colorUtils';
 import { motion } from 'framer-motion';
 
-const ColorCard = ({ color, index, onChange, onRemove, canRemove }) => {
+const ColorCard = ({ color, index, onChange, onRemove, canRemove, label, description }) => {
     const [localHex, setLocalHex] = useState(color);
     const [rgb, setRgb] = useState(hexToRgb(color) || { r: 0, g: 0, b: 0 });
 
@@ -46,7 +46,10 @@ const ColorCard = ({ color, index, onChange, onRemove, canRemove }) => {
             className="glass-panel p-4 rounded-xl shadow-premium border border-border flex flex-col gap-4 relative group"
         >
             <div className="flex items-center justify-between mb-2">
-                <span className="text-text-secondary text-sm font-medium">Color {index + 1}</span>
+                <div className="flex-1">
+                    <span className="text-text font-semibold text-sm">{label || `Color ${index + 1}`}</span>
+                    {description && <p className="text-text-secondary text-xs mt-0.5">{description}</p>}
+                </div>
                 {canRemove && (
                     <button
                         onClick={() => onRemove(index)}
@@ -72,8 +75,9 @@ const ColorCard = ({ color, index, onChange, onRemove, canRemove }) => {
                         type="text"
                         value={localHex}
                         onChange={handleHexChange}
-                        className="w-full bg-secondary border border-border rounded-md px-3 py-2 text-text font-mono text-sm focus:ring-2 focus:ring-accent focus:border-transparent outline-none uppercase transition-colors"
+                        className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-text font-mono text-sm focus:ring-2 focus:ring-accent focus:border-transparent outline-none uppercase transition-colors"
                         maxLength={7}
+                        placeholder="#000000"
                     />
                 </div>
             </div>
@@ -88,9 +92,19 @@ const ColorCard = ({ color, index, onChange, onRemove, canRemove }) => {
                             max="255"
                             value={rgb[channel]}
                             onChange={(e) => handleRgbChange(channel, e.target.value)}
-                            className="flex-1 h-1 bg-secondary rounded-lg appearance-none cursor-pointer accent-accent"
+                            className="flex-1 h-1.5 bg-secondary rounded-lg appearance-none cursor-pointer accent-accent"
                         />
-                        <span className="text-text-secondary w-8 text-right text-xs font-mono">{rgb[channel]}</span>
+                        <input
+                            type="number"
+                            min="0"
+                            max="255"
+                            value={rgb[channel]}
+                            onChange={(e) => {
+                                const val = Math.max(0, Math.min(255, parseInt(e.target.value) || 0));
+                                handleRgbChange(channel, val);
+                            }}
+                            className="w-14 bg-secondary border border-border rounded text-center text-text text-xs font-mono py-1 focus:ring-2 focus:ring-accent focus:border-transparent outline-none"
+                        />
                     </div>
                 ))}
             </div>

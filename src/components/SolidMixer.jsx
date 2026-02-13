@@ -5,13 +5,14 @@ import PreviewPanel from './PreviewPanel';
 import { blendColors, hexToRgb, rgbToHsl } from '../utils/colorUtils';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const SolidMixer = () => {
+const SolidMixer = ({ colors: propsColors, setColors: propsSetColors }) => {
     // Helper to generate unique ID
     const generateId = () => Math.random().toString(36).substr(2, 9);
 
-    const [colors, setColors] = useState([
-        { id: '1', value: '#EF4444' }
-    ]);
+    // Use props if provided, otherwise use local state
+    const [localColors, setLocalColors] = useState([{ id: '1', value: '#EF4444' }]);
+    const colors = propsColors || localColors;
+    const setColors = propsSetColors || setLocalColors;
 
     const handleColorChange = (index, newValue) => {
         const newColors = [...colors];
